@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<s:FarmingtonTroubleReport xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:s="clr-namespace:SalesEngCustomOrbitActivities;assembly=SalesEngCustomOrbitActivities" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core" xmlns:sowa="clr-namespace:SE.Orbit.Workflow.Activities;assembly=SE.Orbit.Workflow.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <s:FarmingtonTroubleReport.Implementation>
+    <Sequence>
+      <Sequence DisplayName="Send Task to Crew">
+        <Sequence.Variables>
+          <Variable x:TypeArguments="sot:TaskResource" Name="LeakReportTask" />
+        </Sequence.Variables>
+        <WriteLine Text="Passing task to crew..." />
+        <sowa:AssignTaskToUser Upn="katew@orbittest.com">
+          <sowa:AssignTaskToUser.Task>
+            <InOutArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpReference x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpReference>
+            </InOutArgument>
+          </sowa:AssignTaskToUser.Task>
+        </sowa:AssignTaskToUser>
+        <Assign>
+          <Assign.To>
+            <OutArgument x:TypeArguments="sot:Status">
+              <mca:CSharpReference x:TypeArguments="sot:Status">CompletedTask.Status</mca:CSharpReference>
+            </OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="sot:Status">
+              <mca:CSharpValue x:TypeArguments="sot:Status">Status.New</mca:CSharpValue>
+            </InArgument>
+          </Assign.Value>
+        </Assign>
+        <sowa:SendTaskToOrbit>
+          <sowa:SendTaskToOrbit.Task>
+            <InOutArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpReference x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpReference>
+            </InOutArgument>
+          </sowa:SendTaskToOrbit.Task>
+        </sowa:SendTaskToOrbit>
+      </Sequence>
+      <sads:DebugSymbol.Symbol>d3VDOlxzcmNcU2FsZXNFR1VHMjAxNFByb2plY3RzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXEZhcm1pbmd0b25Ucm91YmxlUmVwb3J0LnhhbWwMNgNYDgIBATcFVhACAQI7BzthAgETPAdCHwIBDkMHThACAQdPB1UeAgEDO0U7XgIBFDxXPGwCARI/DT9oAgEPSw1LVwIBC0YNRmkCAQhSDVJoAgEE</sads:DebugSymbol.Symbol>
+    </Sequence>
+  </s:FarmingtonTroubleReport.Implementation>
+</s:FarmingtonTroubleReport>

@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:Activity2 xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:local="clr-namespace:SalesEngCustomOrbitActivities;assembly=SalesEngCustomOrbitActivities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core" xmlns:sowa="clr-namespace:SE.Orbit.Workflow.Activities;assembly=SE.Orbit.Workflow.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <local:Activity2.Implementation>
+    <Sequence>
+      <Sequence DisplayName="Create Inspection for Next Month">
+        <Sequence.Variables>
+          <Variable x:TypeArguments="sot:TaskResource" Name="GCBStatusTask" />
+        </Sequence.Variables>
+        <WriteLine Text="Creating inspection for next month..." />
+        <sowa:ConstructTask TaskToCopyFrom="{x:Null}" TaskTypeName="PRPAGCBStatus">
+          <sowa:ConstructTask.Result>
+            <OutArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBStatusTask</mca:CSharpReference>
+            </OutArgument>
+          </sowa:ConstructTask.Result>
+        </sowa:ConstructTask>
+        <local:CopyLocation>
+          <local:CopyLocation.FromTask>
+            <InArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+            </InArgument>
+          </local:CopyLocation.FromTask>
+          <local:CopyLocation.ToTask>
+            <InOutArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBStatusTask</mca:CSharpReference>
+            </InOutArgument>
+          </local:CopyLocation.ToTask>
+        </local:CopyLocation>
+        <Sequence DisplayName="Copy Values to New Task">
+          <Assign>
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Object">
+                <mca:CSharpReference x:TypeArguments="x:Object">GCBStatusTask.Properties["FACILITYID"]</mca:CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Object">
+                <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["FACILITYID"]</mca:CSharpValue>
+              </InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign>
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Object">
+                <mca:CSharpReference x:TypeArguments="x:Object">GCBStatusTask.Properties["PrevCounter"]</mca:CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Object">
+                <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["PresentCounter"]</mca:CSharpValue>
+              </InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign>
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Object">
+                <mca:CSharpReference x:TypeArguments="x:Object">GCBStatusTask.Properties["PrevMeter"]</mca:CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Object">
+                <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["PresentMeter"]</mca:CSharpValue>
+              </InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign>
+            <Assign.To>
+              <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">GCBStatusTask.DueDate</mca:CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="s:DateTime">
+                <mca:CSharpValue x:TypeArguments="s:DateTime">CompletedTask.CompletionDate.Value.AddMonths(1)</mca:CSharpValue>
+              </InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+        <sowa:AssignTaskToUser>
+          <sowa:AssignTaskToUser.Task>
+            <InOutArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBStatusTask</mca:CSharpReference>
+            </InOutArgument>
+          </sowa:AssignTaskToUser.Task>
+          <sowa:AssignTaskToUser.Upn>
+            <InArgument x:TypeArguments="x:String">
+              <mca:CSharpValue x:TypeArguments="x:String">Convert.ToString(CompletedTask.Owner.Value)</mca:CSharpValue>
+            </InArgument>
+          </sowa:AssignTaskToUser.Upn>
+        </sowa:AssignTaskToUser>
+        <sowa:SendTaskToOrbit>
+          <sowa:SendTaskToOrbit.Task>
+            <InOutArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBStatusTask</mca:CSharpReference>
+            </InOutArgument>
+          </sowa:SendTaskToOrbit.Task>
+        </sowa:SendTaskToOrbit>
+        <sowa:CopyPhotos>
+          <sowa:CopyPhotos.FromTask>
+            <InArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+            </InArgument>
+          </sowa:CopyPhotos.FromTask>
+          <sowa:CopyPhotos.ToTask>
+            <InOutArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBStatusTask</mca:CSharpReference>
+            </InOutArgument>
+          </sowa:CopyPhotos.ToTask>
+        </sowa:CopyPhotos>
+      </Sequence>
+      <If>
+        <If.Condition>
+          <InArgument x:TypeArguments="x:Boolean">
+            <mca:CSharpValue x:TypeArguments="x:Boolean">CompletedTask.Properties["NeedsRepair"].ToString() == "Y"</mca:CSharpValue>
+          </InArgument>
+        </If.Condition>
+        <If.Then>
+          <Sequence>
+            <Sequence.Variables>
+              <Variable x:TypeArguments="sot:TaskResource" Name="GCBStatusTask" />
+              <Variable x:TypeArguments="sot:TaskResource" Name="GCBRepairTask" />
+            </Sequence.Variables>
+            <WriteLine Text="Follow up work needed" />
+            <sowa:ConstructTask TaskToCopyFrom="{x:Null}" TaskTypeName="PRPAGCBRepair">
+              <sowa:ConstructTask.Result>
+                <OutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBRepairTask</mca:CSharpReference>
+                </OutArgument>
+              </sowa:ConstructTask.Result>
+            </sowa:ConstructTask>
+            <local:CopyLocation>
+              <local:CopyLocation.FromTask>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+                </InArgument>
+              </local:CopyLocation.FromTask>
+              <local:CopyLocation.ToTask>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBRepairTask</mca:CSharpReference>
+                </InOutArgument>
+              </local:CopyLocation.ToTask>
+            </local:CopyLocation>
+            <Sequence DisplayName="Copy Values to New Task">
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">GCBRepairTask.Properties["FACILITYID"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["FACILITYID"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">GCBRepairTask.Properties["PrevCounter"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["PresentCounter"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">GCBRepairTask.Properties["PrevMeter"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["PresentMeter"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">GCBRepairTask.Properties["ReportComments"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["PresentCounter"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                    <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">GCBRepairTask.DueDate</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                    <mca:CSharpValue x:TypeArguments="s:Nullable(s:DateTime)">CompletedTask.CompletionDate.Value.AddDays(7)</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+            <sowa:AssignTaskToUser>
+              <sowa:AssignTaskToUser.Task>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBRepairTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:AssignTaskToUser.Task>
+              <sowa:AssignTaskToUser.Upn>
+                <InArgument x:TypeArguments="x:String">
+                  <mca:CSharpValue x:TypeArguments="x:String">Convert.ToString(CompletedTask.Owner.Value)</mca:CSharpValue>
+                </InArgument>
+              </sowa:AssignTaskToUser.Upn>
+            </sowa:AssignTaskToUser>
+            <sowa:SendTaskToOrbit>
+              <sowa:SendTaskToOrbit.Task>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBRepairTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:SendTaskToOrbit.Task>
+            </sowa:SendTaskToOrbit>
+            <sowa:CopyPhotos>
+              <sowa:CopyPhotos.FromTask>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+                </InArgument>
+              </sowa:CopyPhotos.FromTask>
+              <sowa:CopyPhotos.ToTask>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GCBRepairTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:CopyPhotos.ToTask>
+            </sowa:CopyPhotos>
+          </Sequence>
+        </If.Then>
+        <If.Else>
+          <WriteLine Text="No follow up work required" />
+        </If.Else>
+      </If>
+      <sads:DebugSymbol.Symbol>9xAF/tPwM7r/XNQ5Lvz7peKEd0M6XENvZGVcR2l0XFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFBSUEFGb2xsb3dVcC54YW1sRDgDqAIOAgEBOQWiARACAV6jAQWmAgoCAQI9Bz1vAwGaAT4HRBwDAZUBRQdQHAMBjgFRB4IBEgIBcYMBB44BHwIBao8BB5UBHgIBZpYBB6EBGQIBX6YBC6YBgwECAQOqAQmhAhQCAQekAgmkAmYCAQU9RT1sAwGbAT50PoMBAwGZAUENQWgDAZYBTQ1NaAMBkgFIDUhgAwGPAVIJXRIDAYcBXglpEgMBgAFqCXUSAgF5dgmBARICAXKLAQ2LAXYCAW6GAQ2GAWgCAWuSAQ2SAWgCAWeeAQ2eAWgCAWOZAQ2ZAWACAWCvAQuvAWMCAVywAQu2ASACAVa3AQvCASACAU3DAQuBAhYCAR+CAguNAiMCARaOAguUAiICARGVAgugAh0CAQikAkekAmMCAQZaD1pzAwGLAVUPVXsDAYgBZg9mdwMBhAFhD2F8AwGBAXIPcnUCAX1tD216AgF6fg9+fgIBdnkPeXgCAXOvAUmvAWACAV2wAXiwAYcBAgFbswERswFsAgFXvwERvwFsAgFSugERugFkAgFOxAENzwEWAgFE0AEN2wEWAgE73AEN5wEWAgEy6AEN9AEWAgEp9QENgAIWAgEgigIRigJ6AgEbhQIRhQJsAgEXkQIRkQJsAgESnQIRnQJsAgENmAIRmAJkAgEJzAETzAF3AgFJxwETxwF/AgFF2AET2AF7AgFA0wET0wGAAQIBPOQBE+QBeQIBN98BE98BfgIBM/ABE/ABewIBLusBE+sBgwECASr9ARP9AYwBAgEl+AET+AF8AgEh</sads:DebugSymbol.Symbol>
+    </Sequence>
+  </local:Activity2.Implementation>
+</local:Activity2>

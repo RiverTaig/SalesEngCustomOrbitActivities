@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:Activity3 xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:local="clr-namespace:SalesEngCustomOrbitActivities;assembly=SalesEngCustomOrbitActivities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core" xmlns:sowa="clr-namespace:SE.Orbit.Workflow.Activities;assembly=SE.Orbit.Workflow.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <local:Activity3.Implementation>
+    <Sequence>
+      <If>
+        <If.Condition>
+          <InArgument x:TypeArguments="x:Boolean">
+            <mca:CSharpValue x:TypeArguments="x:Boolean">CompletedTask.Properties["FollowUpYN"].ToString() == "Y"</mca:CSharpValue>
+          </InArgument>
+        </If.Condition>
+        <If.Then>
+          <Sequence DisplayName="Create Inspection for Next Year">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="sot:TaskResource" Name="LeakReportTask" />
+            </Sequence.Variables>
+            <WriteLine Text="Creating inspection for next year..." />
+            <sowa:ConstructTask TaskToCopyFrom="{x:Null}" TaskTypeName="NFGLeakReport">
+              <sowa:ConstructTask.Result>
+                <OutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">LeakReportTask</mca:CSharpReference>
+                </OutArgument>
+              </sowa:ConstructTask.Result>
+            </sowa:ConstructTask>
+            <local:CopyLocation>
+              <local:CopyLocation.FromTask>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+                </InArgument>
+              </local:CopyLocation.FromTask>
+              <local:CopyLocation.ToTask>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">LeakReportTask</mca:CSharpReference>
+                </InOutArgument>
+              </local:CopyLocation.ToTask>
+            </local:CopyLocation>
+            <Sequence DisplayName="Copy Values to New Task">
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["FACILITYID"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["FACILITYID"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["DateReported"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["DateReported"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["ReportedBy"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["ReportedBy"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["LeakType"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["LeakType"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["EffectOnPublic"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["EffectOnPublic"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["GasReading"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["GasReading"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["LocationReading"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["LocationReading"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["Distance"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["Distance"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["LeakPlastic"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["LeakPlastic"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign>
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["Comments"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">CompletedTask.Properties["Comments"]</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Set Report Code to Reinvestigation">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">LeakReportTask.Properties["ReportCode"]</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">
+                    <mca:CSharpValue x:TypeArguments="x:Object">"RI"</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Set Due Date">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                    <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">LeakReportTask.DueDate</mca:CSharpReference>
+                  </OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="s:DateTime">
+                    <mca:CSharpValue x:TypeArguments="s:DateTime">CompletedTask.CompletionDate.Value.AddYears(1)</mca:CSharpValue>
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+            <sowa:AssignTaskToUser>
+              <sowa:AssignTaskToUser.Task>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">LeakReportTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:AssignTaskToUser.Task>
+              <sowa:AssignTaskToUser.Upn>
+                <InArgument x:TypeArguments="x:String">
+                  <mca:CSharpValue x:TypeArguments="x:String">Convert.ToString(CompletedTask.Owner.Value)</mca:CSharpValue>
+                </InArgument>
+              </sowa:AssignTaskToUser.Upn>
+            </sowa:AssignTaskToUser>
+            <sowa:SendTaskToOrbit>
+              <sowa:SendTaskToOrbit.Task>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">LeakReportTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:SendTaskToOrbit.Task>
+            </sowa:SendTaskToOrbit>
+            <sowa:CopyPhotos>
+              <sowa:CopyPhotos.FromTask>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+                </InArgument>
+              </sowa:CopyPhotos.FromTask>
+              <sowa:CopyPhotos.ToTask>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">LeakReportTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:CopyPhotos.ToTask>
+            </sowa:CopyPhotos>
+            <local:CopyRedlines>
+              <local:CopyRedlines.FromTask>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+                </InArgument>
+              </local:CopyRedlines.FromTask>
+              <local:CopyRedlines.ToTask>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">LeakReportTask</mca:CSharpReference>
+                </InOutArgument>
+              </local:CopyRedlines.ToTask>
+            </local:CopyRedlines>
+          </Sequence>
+        </If.Then>
+        <If.Else>
+          <WriteLine Text="No follow-up work required" />
+        </If.Else>
+      </If>
+      <sads:DebugSymbol.Symbol>d3RDOlxzcmNcU2FsZXNFR1VHMjAxNFByb2plY3RzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXE5GR0xlYWtSZWludmVzdGlnYXRpb24ueGFtbD44A5wCDgIBATkFmgIKAgECPAs8ggECAQNACZUCFAIBB5gCCZgCZgIBBUQLRHIDAYIBRQtLIAIBfUwLVyACAXZYC+kBFgIBIeoBC/UBIwIBGvYBC/wBIgIBFv0BC4gCHQIBD4kCC5QCIAIBCJgCR5gCYwIBBkRJRG8DAYMBRXhFhwEDAYEBSBFIbQIBflQRVG0CAXpPEU9kAgF3WQ1kFgIBb2UNcBYCAWhxDXwWAgFhfQ2IARYCAVqJAQ2UARYCAVOVAQ2gARYCAUyhAQ2sARYCAUWtAQ24ARYCAT65AQ3EARYCATfFAQ3QARYCATDRAQ3cARYCASndAQ3oARYCASLyARHyAXoCAR7tARHtAW0CARv5ARH5AW0CAReFAhGFAm0CAROAAhGAAmQCARCRAhGRAm0CAQyMAhGMAmQCAQlhE2F3AgFzXBNcgAECAXBtE215AgFsaBNoggECAWl5E3l3AgFldBN0gAECAWKFAROFAXUCAV6AAROAAX4CAVuRARORAXsCAVeMAROMAYQBAgFUnQETnQF3AgFQmAETmAGAAQIBTakBE6kBfAIBSaQBE6QBhQECAUa1ARO1AXUCAUKwAROwAX4CAT/BARPBAXgCATu8ARO8AYEBAgE4zQETzQF1AgE0yAETyAF+AgEx2QET2QFVAgEt1AET1AGAAQIBKuUBE+UBgQECASbgARPgAX0CASM=</sads:DebugSymbol.Symbol>
+    </Sequence>
+  </local:Activity3.Implementation>
+</local:Activity3>

@@ -1,0 +1,2 @@
+TransformerInspectionCompleted.g.xaml
+XamlStaticHelperNamespace._XamlStaticHelper

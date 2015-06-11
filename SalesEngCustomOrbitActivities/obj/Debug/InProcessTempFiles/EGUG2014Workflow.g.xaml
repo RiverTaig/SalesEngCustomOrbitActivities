@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:EGUG2014Workflow xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:local="clr-namespace:SalesEngCustomOrbitActivities;assembly=SalesEngCustomOrbitActivities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core" xmlns:sowa="clr-namespace:SE.Orbit.Workflow.Activities;assembly=SE.Orbit.Workflow.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+      <x:String>SalesEngCustomOrbitActivities</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>System.Configuration</x:String>
+      <x:String>SE.Orbit.Workflow.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <local:EGUG2014Workflow.Implementation>
+    <Sequence>
+      <TryCatch>
+        <TryCatch.Try>
+          <Sequence>
+            <If DisplayName="Check valve for corrosion">
+              <If.Condition>
+                <InArgument x:TypeArguments="x:Boolean">
+                  <mca:CSharpValue x:TypeArguments="x:Boolean">Convert.ToDouble(CompletedTask.Properties["PipeSoil"].ToString()) &gt; -0.75</mca:CSharpValue>
+                </InArgument>
+              </If.Condition>
+              <If.Then>
+                <Sequence>
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="local:TraceResult" Name="traceResults" />
+                  </Sequence.Variables>
+                  <WriteLine Text="It is corroded" />
+                  <TryCatch>
+                    <TryCatch.Try>
+                      <local:CPTraceActivity DisplayName="RunTrace">
+                        <local:CPTraceActivity.Result>
+                          <OutArgument x:TypeArguments="local:TraceResult">
+                            <mca:CSharpReference x:TypeArguments="local:TraceResult">traceResults</mca:CSharpReference>
+                          </OutArgument>
+                        </local:CPTraceActivity.Result>
+                        <local:CPTraceActivity.X>
+                          <InArgument x:TypeArguments="x:Double">
+                            <mca:CSharpValue x:TypeArguments="x:Double">CompletedTask.Location.Gps.Lng.Value</mca:CSharpValue>
+                          </InArgument>
+                        </local:CPTraceActivity.X>
+                        <local:CPTraceActivity.Y>
+                          <InArgument x:TypeArguments="x:Double">
+                            <mca:CSharpValue x:TypeArguments="x:Double">CompletedTask.Location.Gps.Lat.Value</mca:CSharpValue>
+                          </InArgument>
+                        </local:CPTraceActivity.Y>
+                      </local:CPTraceActivity>
+                    </TryCatch.Try>
+                    <TryCatch.Catches>
+                      <Catch x:TypeArguments="s:Exception">
+                        <ActivityAction x:TypeArguments="s:Exception">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                          </ActivityAction.Argument>
+                          <WriteLine>
+                            <InArgument x:TypeArguments="x:String">
+                              <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+                            </InArgument>
+                          </WriteLine>
+                        </ActivityAction>
+                      </Catch>
+                    </TryCatch.Catches>
+                  </TryCatch>
+                  <WriteLine Text="RanTrace" />
+                  <Parallel>
+                    <ParallelForEach x:TypeArguments="local:TestPoint" DisplayName="Create Tasks for each TestPoint">
+                      <ParallelForEach.Values>
+                        <InArgument x:TypeArguments="scg:IEnumerable(local:TestPoint)">
+                          <mca:CSharpValue x:TypeArguments="scg:IEnumerable(local:TestPoint)">traceResults.TestPoints</mca:CSharpValue>
+                        </InArgument>
+                      </ParallelForEach.Values>
+                      <ActivityAction x:TypeArguments="local:TestPoint">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="local:TestPoint" Name="item" />
+                        </ActivityAction.Argument>
+                        <Sequence>
+                          <TryCatch>
+                            <TryCatch.Try>
+                              <Sequence DisplayName="CreateTestPointTaskSequence">
+                                <Sequence.Variables>
+                                  <Variable x:TypeArguments="sot:TaskResource" Name="TestPointTask" />
+                                  <Variable x:TypeArguments="sot:TaskResource" Name="CompletedTestPointTask" />
+                                  <Variable x:TypeArguments="x:String" Name="CompletedByUpn" />
+                                </Sequence.Variables>
+                                <WriteLine Text="Creating TestPoint Task" />
+                                <sowa:ConstructTask TaskToCopyFrom="{x:Null}" TaskTypeName="CPTestRead">
+                                  <sowa:ConstructTask.Result>
+                                    <OutArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                    </OutArgument>
+                                  </sowa:ConstructTask.Result>
+                                </sowa:ConstructTask>
+                                <WriteLine Text="Constructed TestPoint Task" />
+                                <sowa:AssignTaskToUser>
+                                  <sowa:AssignTaskToUser.Task>
+                                    <InOutArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                    </InOutArgument>
+                                  </sowa:AssignTaskToUser.Task>
+                                  <sowa:AssignTaskToUser.Upn>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CompletedTask.Properties["Inspector"].ToString()</mca:CSharpValue>
+                                    </InArgument>
+                                  </sowa:AssignTaskToUser.Upn>
+                                </sowa:AssignTaskToUser>
+                                <WriteLine Text="Assigned TestPoint Task" />
+                                <Assign DisplayName="Set Location">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="sot:LocationResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:LocationResource">TestPointTask.Location</mca:CSharpReference>
+                                    </OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="sot:LocationResource">
+                                      <mca:CSharpValue x:TypeArguments="sot:LocationResource">new LocationResource() { GlobalID = item.GUID, Gps = new GpsResource() { Lat = item.Latitude, Lng = item.Longitude } }</mca:CSharpValue>
+                                    </InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <WriteLine Text="Set Location on TestPoint Task" />
+                                <Assign>
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Object">
+                                      <mca:CSharpReference x:TypeArguments="x:Object">TestPointTask.Properties["FacilityID"]</mca:CSharpReference>
+                                    </OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Object">
+                                      <mca:CSharpValue x:TypeArguments="x:Object">item.FacilityID</mca:CSharpValue>
+                                    </InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign>
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                                      <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">TestPointTask.DueDate</mca:CSharpReference>
+                                    </OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="s:DateTime">
+                                      <mca:CSharpValue x:TypeArguments="s:DateTime">new DateTime(2014,10,31)</mca:CSharpValue>
+                                    </InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <WriteLine Text="Sending TestPoint Task To Orbit" />
+                                <sowa:SendTaskToOrbit>
+                                  <sowa:SendTaskToOrbit.Task>
+                                    <InOutArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                    </InOutArgument>
+                                  </sowa:SendTaskToOrbit.Task>
+                                </sowa:SendTaskToOrbit>
+                                <sowa:CopyPhotos>
+                                  <sowa:CopyPhotos.FromTask>
+                                    <InArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+                                    </InArgument>
+                                  </sowa:CopyPhotos.FromTask>
+                                  <sowa:CopyPhotos.ToTask>
+                                    <InOutArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                    </InOutArgument>
+                                  </sowa:CopyPhotos.ToTask>
+                                </sowa:CopyPhotos>
+                                <local:CreateFile>
+                                  <local:CreateFile.FileName>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">".\\DemoItems\\" + TestPointTask.ID.ToString() + ".task"</mca:CSharpValue>
+                                    </InArgument>
+                                  </local:CreateFile.FileName>
+                                </local:CreateFile>
+                              </Sequence>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:Exception">
+                                <ActivityAction x:TypeArguments="s:Exception">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <WriteLine>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+                                    </InArgument>
+                                  </WriteLine>
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                          </TryCatch>
+                        </Sequence>
+                      </ActivityAction>
+                    </ParallelForEach>
+                    <ParallelForEach x:TypeArguments="local:Rectifier" DisplayName="Create Task for each Rectifier">
+                      <ParallelForEach.Values>
+                        <InArgument x:TypeArguments="scg:IEnumerable(local:Rectifier)">
+                          <mca:CSharpValue x:TypeArguments="scg:IEnumerable(local:Rectifier)">traceResults.Rectifiers</mca:CSharpValue>
+                        </InArgument>
+                      </ParallelForEach.Values>
+                      <ActivityAction x:TypeArguments="local:Rectifier">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="local:Rectifier" Name="item" />
+                        </ActivityAction.Argument>
+                        <Sequence>
+                          <TryCatch>
+                            <TryCatch.Try>
+                              <Sequence>
+                                <Sequence.Variables>
+                                  <Variable x:TypeArguments="sot:TaskResource" Name="RectifierTask" />
+                                  <Variable x:TypeArguments="x:String" Default="RectifierInspection" Name="RectifierTaskTypeName" />
+                                </Sequence.Variables>
+                                <WriteLine Text="Creating Rectifier Task" />
+                                <sowa:ConstructTask TaskToCopyFrom="{x:Null}">
+                                  <sowa:ConstructTask.Result>
+                                    <OutArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:TaskResource">RectifierTask</mca:CSharpReference>
+                                    </OutArgument>
+                                  </sowa:ConstructTask.Result>
+                                  <sowa:ConstructTask.TaskTypeName>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">RectifierTaskTypeName</mca:CSharpValue>
+                                    </InArgument>
+                                  </sowa:ConstructTask.TaskTypeName>
+                                </sowa:ConstructTask>
+                                <sowa:AssignTaskToUser>
+                                  <sowa:AssignTaskToUser.Task>
+                                    <InOutArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:TaskResource">RectifierTask</mca:CSharpReference>
+                                    </InOutArgument>
+                                  </sowa:AssignTaskToUser.Task>
+                                  <sowa:AssignTaskToUser.Upn>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CompletedTask.Properties["Inspector"].ToString()</mca:CSharpValue>
+                                    </InArgument>
+                                  </sowa:AssignTaskToUser.Upn>
+                                </sowa:AssignTaskToUser>
+                                <Assign DisplayName="Set Location">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="sot:LocationResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:LocationResource">RectifierTask.Location</mca:CSharpReference>
+                                    </OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="sot:LocationResource">
+                                      <mca:CSharpValue x:TypeArguments="sot:LocationResource">new LocationResource() { GlobalID = item.GUID, Gps = new GpsResource() { Lat = item.Latitude, Lng = item.Longitude } }</mca:CSharpValue>
+                                    </InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign>
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Object">
+                                      <mca:CSharpReference x:TypeArguments="x:Object">RectifierTask.Properties["FacilityID"]</mca:CSharpReference>
+                                    </OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Object">
+                                      <mca:CSharpValue x:TypeArguments="x:Object">item.FacilityID</mca:CSharpValue>
+                                    </InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign>
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                                      <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">RectifierTask.DueDate</mca:CSharpReference>
+                                    </OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                                      <mca:CSharpValue x:TypeArguments="s:Nullable(s:DateTime)">new DateTime(2014,10,31)</mca:CSharpValue>
+                                    </InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <sowa:SendTaskToOrbit>
+                                  <sowa:SendTaskToOrbit.Task>
+                                    <InOutArgument x:TypeArguments="sot:TaskResource">
+                                      <mca:CSharpReference x:TypeArguments="sot:TaskResource">RectifierTask</mca:CSharpReference>
+                                    </InOutArgument>
+                                  </sowa:SendTaskToOrbit.Task>
+                                </sowa:SendTaskToOrbit>
+                                <local:CreateFile>
+                                  <local:CreateFile.FileName>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">".\\DemoItems\\" + RectifierTask.ID.ToString() + ".task"</mca:CSharpValue>
+                                    </InArgument>
+                                  </local:CreateFile.FileName>
+                                </local:CreateFile>
+                              </Sequence>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:Exception">
+                                <ActivityAction x:TypeArguments="s:Exception">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <WriteLine>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+                                    </InArgument>
+                                  </WriteLine>
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                          </TryCatch>
+                        </Sequence>
+                      </ActivityAction>
+                    </ParallelForEach>
+                  </Parallel>
+                </Sequence>
+              </If.Then>
+            </If>
+          </Sequence>
+        </TryCatch.Try>
+        <TryCatch.Catches>
+          <Catch x:TypeArguments="s:Exception">
+            <ActivityAction x:TypeArguments="s:Exception">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+              </ActivityAction.Argument>
+              <WriteLine>
+                <InArgument x:TypeArguments="x:String">
+                  <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+                </InArgument>
+              </WriteLine>
+            </ActivityAction>
+          </Catch>
+        </TryCatch.Catches>
+      </TryCatch>
+      <sads:DebugSymbol.Symbol>d25DOlxzcmNcU2FsZXNFR1VHMjAxNFByb2plY3RzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXEVHVUcyMDE0V29ya2Zsb3cueGFtbFg+A/cCDgIBAT8F9QIQAgECQQnlAhQCAQftAg3xAhkCAQNCC+QCEAIBCO8CEe8CYwIBBEURRZwBAgEJSQ/iAhoCAQtNEU1iAwH5AU4RcBwDAekBcRFxXAMB5wFyEeECHAIBDE1PTV8DAfoBUBVgLQMB7wFoGWwlAwHqAXFPcVkDAegBcxPvASUCAWzwARPgAiUCAQ1TG1N2AwH2AVgbWH0DAfMBXRtdfQMB8AFqHWpvAwHrAXYZdoYBAwHkAX0X7QEiAgFt8wEZ8wGGAQIBafoBF94CIgIBDn4Z7AEkAgFu+wEZ3QIkAgEPgAEd3AEoAgF15AEh6AEtAgFv/QEdzQIoAgEW1QIh2QItAgEQhgEfhgF5AwHiAYcBH40BNAMB2QGOAR+OAXwDAdcBjwEfmgE3AwHIAZsBH5sBeQMBxgGcAR+nASgDAbcBqAEfqAGBAQMBtQGpAR+0ASgDAaYBtQEfwAEoAwGXAcEBH8EBggEDAZUBwgEfyAE2AwGNAckBH9QBMQIBftUBH9sBMgIBduYBJeYBdwIBcIACToACYwIBF4ICH4ICeQIBZ4MCH44CNAIBWo8CH5oCNwIBTZsCH6YCKAIBQKcCH7ICKAIBM7MCH74CKAIBJr8CH8UCNgIBH8YCH8wCMgIBGNcCJdcCdwIBEYYBXYYBdgMB4wGHAYwBhwGYAQMB4QGKASWKAYABAwHaAY4BXY4BeQMB2AGXASWXAZMBAwHQAZIBJZIBgAEDAckBmwFdmwF2AwHHAaQBJaQB5QEDAb8BnwElnwGNAQMBuAGoAV6oAX4DAbYBsQElsQFyAwGuAawBJawBkQEDAacBvQElvQF9AwGfAbgBJbgBjgEDAZgBwQFewQF/AwGWAcUBJcUBgAEDAY4B0QEl0QGAAQMBhgHMASXMAXgCAX/YASXYAZsBAgF3ggJdggJ2AgFoiwIliwJ4AgFhhgIlhgKAAQIBW5cCJZcCkwECAVSSAiWSAoABAgFOowIlowLlAQIBR54CJZ4CjQECAUGvAiWvAnICATqqAiWqApEBAgE0uwIluwKJAQIBLbYCJbYCjgECASfCAiXCAoABAgEgyQIlyQKbAQIBGQ==</sads:DebugSymbol.Symbol>
+    </Sequence>
+  </local:EGUG2014Workflow.Implementation>
+</local:EGUG2014Workflow>

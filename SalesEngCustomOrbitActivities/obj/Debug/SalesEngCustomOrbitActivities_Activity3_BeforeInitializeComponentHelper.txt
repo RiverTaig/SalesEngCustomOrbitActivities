@@ -1,0 +1,2 @@
+NFGLeakReinvestigation.g.xaml
+XamlStaticHelperNamespace._XamlStaticHelper

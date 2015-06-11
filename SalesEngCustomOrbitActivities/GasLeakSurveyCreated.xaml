@@ -1,0 +1,131 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="SalesEngCustomOrbitActivities.GasLeakSurveyCreated"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:local="clr-namespace:SalesEngCustomOrbitActivities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="CreatedTask" Type="InArgument(sot:TaskResource)" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>SalesEngCustomOrbitActivities.GasLeakSurveyCreated_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sot:TaskResource" Name="LeakSurveyTask" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="updateFields" />
+    </Sequence.Variables>
+    <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="Workflow started..." />
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sot:TaskResource">
+          <mca:CSharpReference x:TypeArguments="sot:TaskResource">LeakSurveyTask</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sot:TaskResource">
+          <mca:CSharpValue x:TypeArguments="sot:TaskResource">CreatedTask</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+          <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:String)">updateFields</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+          <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:String)">new Dictionary&lt;string,string&gt;()</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Feature Object ID" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1">
+      <AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+          <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("ObjectID", Convert.ToString(LeakSurveyTask.Properties["ObjectID"]))</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection.Item>
+      <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+        <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">updateFields</mca:CSharpValue>
+      </InArgument>
+    </AddToCollection>
+    <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Orbit Survey Status Update" sap2010:WorkflowViewState.IdRef="AddToCollection`1_2">
+      <AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+          <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("OrbitSurveyStatus", "\""+LeakSurveyTask.Status.ToString()+"\"")</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection.Item>
+      <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+        <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">updateFields</mca:CSharpValue>
+      </InArgument>
+    </AddToCollection>
+    <local:UpdateFeatureService sap2010:WorkflowViewState.IdRef="UpdateFeatureService_1" URL="http://63.253.242.153/arcgis/rest/services/Orbit/GasOrbit/FeatureServer/22/updateFeatures">
+      <local:UpdateFeatureService.Attributes>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+          <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:String)">updateFields</mca:CSharpValue>
+        </InArgument>
+      </local:UpdateFeatureService.Attributes>
+    </local:UpdateFeatureService>
+    <sads:DebugSymbol.Symbol>d3JDOlxzcmNcU2FsZXNFR1VHMjAxNFByb2plY3RzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXEdhc0xlYWtTdXJ2ZXlDcmVhdGVkLnhhbWwSNgNwDgIBATsFO1sCASw8BUcOAgEjSAVTDgIBGlQFXRcCARFeBWcXAgEIaAVuIgIBAjtDO1gCAS1EC0RcAgEoPws/ZwIBJFALUIgBAgEfSwtLdwIBG1sJW4ABAgEWVwtX0AECARJlCWWAAQIBDWELYcwBAgEJaF5ouQECAQdrC2tvAgED</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="AddToCollection`1_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_2" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="UpdateFeatureService_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="264,576">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SalesEngCustomOrbitActivities.GasLeakSurveyCreated_1" sap:VirtualizedContainerService.HintSize="304,656" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:TransformerInspectionCompleted xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:local="clr-namespace:SalesEngCustomOrbitActivities;assembly=SalesEngCustomOrbitActivities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <local:TransformerInspectionCompleted.Implementation>
+    <Sequence>
+      <Sequence.Variables>
+        <Variable x:TypeArguments="sot:TaskResource" Name="TransformerInspectionTask" />
+        <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="updateFields" />
+      </Sequence.Variables>
+      <WriteLine Text="Workflow started..." />
+      <Assign>
+        <Assign.To>
+          <OutArgument x:TypeArguments="sot:TaskResource">
+            <mca:CSharpReference x:TypeArguments="sot:TaskResource">TransformerInspectionTask</mca:CSharpReference>
+          </OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="sot:TaskResource">
+            <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+          </InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign>
+        <Assign.To>
+          <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+            <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:String)">updateFields</mca:CSharpReference>
+          </OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:String)">new Dictionary&lt;string,string&gt;()</mca:CSharpValue>
+          </InArgument>
+        </Assign.Value>
+      </Assign>
+      <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Feature Object ID">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("ObjectID", Convert.ToString(TransformerInspectionTask.Properties["ObjectID"]))</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">updateFields</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <local:UpdateFeatureServiceAndCreateRelatedRecord ObjectID="0" TransformerBankURL="http://63.253.242.153/arcgis/rest/services/Orbit/ElectricOrbit/FeatureServer/3/updateFeatures" TransformerInspectionURL="http://63.253.242.153/arcgis/rest/services/Orbit/ElectricOrbit/FeatureServer/32/addFeatures">
+        <local:UpdateFeatureServiceAndCreateRelatedRecord.TaskRes>
+          <InArgument x:TypeArguments="sot:TaskResource">
+            <mca:CSharpValue x:TypeArguments="sot:TaskResource">TransformerInspectionTask</mca:CSharpValue>
+          </InArgument>
+        </local:UpdateFeatureServiceAndCreateRelatedRecord.TaskRes>
+      </local:UpdateFeatureServiceAndCreateRelatedRecord>
+      <sads:DebugSymbol.Symbol>9xClJz45DZcE95M4jDPtmniAiQFDOlxDb2RlXEdpdFxTYWxlc0VuZ0N1c3RvbU9yYml0QWN0aXZpdGllc1xTYWxlc0VuZ0N1c3RvbU9yYml0QWN0aXZpdGllc1xTYWxlc0VuZ0N1c3RvbU9yYml0QWN0aXZpdGllc1xUcmFuc2Zvcm1lckluc3BlY3Rpb25Db21wbGV0ZWQueGFtbBE2A2YOAgEBOwU7WwIBJTwFRw4CARxIBVMOAgETVAVdFwIBCl4FZDgCAQI7QztYAgEmRAtEXgIBIT8LP3ICAR1QC1CIAQIBGEsLS3cCARRbCVuAAQIBD1cLV9sBAgELYQthagIBBl6PAV6SAQIBBV6fAl78AgIBBF6mAV6FAgIBAw==</sads:DebugSymbol.Symbol>
+    </Sequence>
+  </local:TransformerInspectionCompleted.Implementation>
+</local:TransformerInspectionCompleted>

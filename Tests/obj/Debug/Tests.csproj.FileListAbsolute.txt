@@ -1,0 +1,6 @@
+C:\Code\Git\SalesEngCustomOrbitActivities\SalesEngCustomOrbitActivities\Tests\bin\Debug\Tests.exe.config
+C:\Code\Git\SalesEngCustomOrbitActivities\SalesEngCustomOrbitActivities\Tests\bin\Debug\Tests.exe
+C:\Code\Git\SalesEngCustomOrbitActivities\SalesEngCustomOrbitActivities\Tests\bin\Debug\Tests.pdb
+C:\Code\Git\SalesEngCustomOrbitActivities\SalesEngCustomOrbitActivities\Tests\obj\Debug\Tests.csprojResolveAssemblyReference.cache
+C:\Code\Git\SalesEngCustomOrbitActivities\SalesEngCustomOrbitActivities\Tests\obj\Debug\Tests.exe
+C:\Code\Git\SalesEngCustomOrbitActivities\SalesEngCustomOrbitActivities\Tests\obj\Debug\Tests.pdb

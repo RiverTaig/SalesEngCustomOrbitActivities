@@ -1,0 +1,2 @@
+CopyLocation.g.xaml
+XamlStaticHelperNamespace._XamlStaticHelper

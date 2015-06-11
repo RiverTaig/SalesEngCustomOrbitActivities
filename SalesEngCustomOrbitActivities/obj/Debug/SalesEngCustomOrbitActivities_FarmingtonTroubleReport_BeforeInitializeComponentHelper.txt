@@ -1,0 +1,2 @@
+FarmingtonTroubleReport.g.xaml
+XamlStaticHelperNamespace._XamlStaticHelper

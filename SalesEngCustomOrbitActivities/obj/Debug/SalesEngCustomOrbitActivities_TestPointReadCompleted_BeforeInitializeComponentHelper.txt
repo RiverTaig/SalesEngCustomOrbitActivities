@@ -1,0 +1,2 @@
+CPTestPointReadingTable.g.xaml
+XamlStaticHelperNamespace._XamlStaticHelper

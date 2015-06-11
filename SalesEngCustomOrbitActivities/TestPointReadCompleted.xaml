@@ -1,0 +1,691 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="SalesEngCustomOrbitActivities.TestPointReadCompleted"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:local="clr-namespace:SalesEngCustomOrbitActivities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core"
+ xmlns:sowa="clr-namespace:SE.Orbit.Workflow.Activities;assembly=SE.Orbit.Workflow.Activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="CompletedTask" Type="InArgument(sot:TaskResource)" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>SalesEngCustomOrbitActivities.TestPointReadCompleted_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>System.Net</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="CP Test Point Reading Workflow" sap2010:WorkflowViewState.IdRef="Sequence_6">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sot:TaskResource" Name="CompletedTestPointTask" />
+      <Variable x:TypeArguments="x:String" Name="CompletedByUpn" />
+    </Sequence.Variables>
+    <Assign DisplayName="Assign Completed Task Argument" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sot:TaskResource">
+          <mca:CSharpReference x:TypeArguments="sot:TaskResource">CompletedTestPointTask</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sot:TaskResource">
+          <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <Sequence DisplayName="Add Orbit Results to GIS" sap2010:WorkflowViewState.IdRef="Sequence_3">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="njl:JArray" Name="featuresFieldsJArray" />
+        <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="arguments" />
+        <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="geometryDictionary" />
+        <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="featuresFields" />
+        <Variable x:TypeArguments="x:String" Default="http://63.253.242.153/arcgis/rest/services/Orbit/GasOrbit/FeatureServer/23/addFeatures" Name="TestPointTableUrl" />
+        <Variable x:TypeArguments="x:String" Default="x" Name="xArgumentName" />
+        <Variable x:TypeArguments="x:String" Default="y" Name="yArgumentName" />
+        <Variable x:TypeArguments="x:String" Default="http://63.253.242.153/arcgis/rest/services/Orbit/GasOrbit/FeatureServer/5/addFeatures" Name="TestPointFeatureUrl" />
+        <Variable x:TypeArguments="x:Int32" Name="CPReadTableRecordObjID" />
+        <Variable x:TypeArguments="x:Int32" Name="CPReadFeatureObjID" />
+      </Sequence.Variables>
+      <Sequence DisplayName="Inputs for CPTESTPOINTREADING table" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <Sequence.Variables>
+          <Variable x:TypeArguments="x:String" Default="VOLTS" Name="voltArgumentName" />
+          <Variable x:TypeArguments="x:String" Default="COMMENTS" Name="commentsArgumentName" />
+          <Variable x:TypeArguments="x:String" Default="CPTestPoint_GlobalID" Name="globalIDArgumentName" />
+        </Sequence.Variables>
+        <Assign DisplayName="addFeatures Inputs" sap2010:WorkflowViewState.IdRef="Assign_2">
+          <Assign.To>
+            <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+              <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:String)">arguments</mca:CSharpReference>
+            </OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+              <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:String)">new Dictionary&lt;string,string&gt;()</mca:CSharpValue>
+            </InArgument>
+          </Assign.Value>
+        </Assign>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add gdbVersion Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("gdbVersion", "")</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add rollbackOnFailure Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_2">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("rollbackOnFailure", "true")</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add f Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_3">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("f", "json")</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <Assign DisplayName="Attribute Values" sap2010:WorkflowViewState.IdRef="Assign_3">
+          <Assign.To>
+            <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+              <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:Object)">featuresFields</mca:CSharpReference>
+            </OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)">new Dictionary&lt;string,object&gt;()</mca:CSharpValue>
+            </InArgument>
+          </Assign.Value>
+        </Assign>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddVoltsArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_4">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;(voltArgumentName, CompletedTestPointTask.Properties["Volts"])</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">featuresFields</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddCommentsArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_5">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;(commentsArgumentName, CompletedTestPointTask.Properties["Comments"].ToString())</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">featuresFields</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddFacilityIDArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_6">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;("CPTestPoint_FacID", CompletedTestPointTask.Properties["FACILITYID"].ToString())</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">featuresFields</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <local:GetTaskOwner sap2010:WorkflowViewState.IdRef="GetTaskOwner_1">
+          <local:GetTaskOwner.Result>
+            <OutArgument x:TypeArguments="x:String">
+              <mca:CSharpReference x:TypeArguments="x:String">CompletedByUpn</mca:CSharpReference>
+            </OutArgument>
+          </local:GetTaskOwner.Result>
+          <local:GetTaskOwner.Task>
+            <InArgument x:TypeArguments="sot:TaskResource">
+              <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTestPointTask</mca:CSharpValue>
+            </InArgument>
+          </local:GetTaskOwner.Task>
+        </local:GetTaskOwner>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddReadByArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_7">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;("READBY", CompletedByUpn)</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">featuresFields</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddReadDateArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_8">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;("READDATE", Convert.ToInt64((CompletedTestPointTask.CompletionDate.Value.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds))</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">featuresFields</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddReadingVoltsArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_20">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;("DateReading", Convert.ToString(CompletedTestPointTask.CompletionDate)+" ("+Convert.ToString(CompletedTestPointTask.Properties["Volts"])+")")</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">featuresFields</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddCPTestPointGuidArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_9">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string,object&gt;(globalIDArgumentName, "{" + CompletedTestPointTask.Location.GlobalID.ToString() + "}")</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">featuresFields</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+      </Sequence>
+      <Assign sap2010:WorkflowViewState.IdRef="Assign_4">
+        <Assign.To>
+          <OutArgument x:TypeArguments="njl:JArray">
+            <mca:CSharpReference x:TypeArguments="njl:JArray">featuresFieldsJArray</mca:CSharpReference>
+          </OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="njl:JArray">
+            <mca:CSharpValue x:TypeArguments="njl:JArray">new JArray()</mca:CSharpValue>
+          </InArgument>
+        </Assign.Value>
+      </Assign>
+      <AddToCollection x:TypeArguments="njl:JToken" DisplayName="AddToCollection&lt;JToken&gt;" sap2010:WorkflowViewState.IdRef="AddToCollection`1_10">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="njl:JToken">
+            <mca:CSharpValue x:TypeArguments="njl:JToken">JObject.Parse("{\"attributes\":" + JsonConvert.SerializeObject(featuresFields) + "}")</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(njl:JToken)">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(njl:JToken)">featuresFieldsJArray</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add features Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_11">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("features", JsonConvert.SerializeObject(featuresFieldsJArray))</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_1">
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String" xml:space="preserve">string.Join("&amp;",arguments.Select(x =&gt; string.Format("{0}={1}",
+                WebUtility.UrlEncode(x.Key),
+                WebUtility.UrlEncode(x.Value))))</mca:CSharpValue>
+        </InArgument>
+      </WriteLine>
+      <local:PostToFormEncodedService DisplayName="Update CP Test Point Read Table " sap2010:WorkflowViewState.IdRef="PostToFormEncodedService_1">
+        <local:PostToFormEncodedService.Arguments>
+          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:String)">arguments</mca:CSharpValue>
+          </InArgument>
+        </local:PostToFormEncodedService.Arguments>
+        <local:PostToFormEncodedService.Result>
+          <OutArgument x:TypeArguments="x:Int32">
+            <mca:CSharpReference x:TypeArguments="x:Int32">CPReadTableRecordObjID</mca:CSharpReference>
+          </OutArgument>
+        </local:PostToFormEncodedService.Result>
+        <local:PostToFormEncodedService.Url>
+          <InArgument x:TypeArguments="x:Uri">
+            <mca:CSharpValue x:TypeArguments="x:Uri">new Uri(TestPointTableUrl)</mca:CSharpValue>
+          </InArgument>
+        </local:PostToFormEncodedService.Url>
+      </local:PostToFormEncodedService>
+      <Sequence DisplayName="Create Geometry" sap2010:WorkflowViewState.IdRef="Sequence_2">
+        <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+          <Assign.To>
+            <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+              <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:Object)">geometryDictionary</mca:CSharpReference>
+            </OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)">new Dictionary&lt;string,object&gt;()</mca:CSharpValue>
+            </InArgument>
+          </Assign.Value>
+        </Assign>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddXArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_12">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;(xArgumentName, CompletedTestPointTask.Location.Gps.Lng.Value)</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">geometryDictionary</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddYArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_13">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string,object&gt;(yArgumentName, CompletedTestPointTask.Location.Gps.Lat.Value)</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">geometryDictionary</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+        <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:Object)" DisplayName="AddSpatialReferenceArgument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_14">
+          <AddToCollection.Item>
+            <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">
+              <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:Object)">new KeyValuePair&lt;string, object&gt;("spatialReference", new Dictionary&lt;string,object&gt;{{"wkid",4326}})</mca:CSharpValue>
+            </InArgument>
+          </AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">
+            <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:Object))">geometryDictionary</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection>
+      </Sequence>
+      <Assign DisplayName="addFeatures Inputs" sap2010:WorkflowViewState.IdRef="Assign_6">
+        <Assign.To>
+          <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+            <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:String)">arguments</mca:CSharpReference>
+          </OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:String)">new Dictionary&lt;string,string&gt;()</mca:CSharpValue>
+          </InArgument>
+        </Assign.Value>
+      </Assign>
+      <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add gdbVersion Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_15">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("gdbVersion", "")</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add rollbackOnFailure Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_16">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("rollbackOnFailure", "true")</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add f Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_17">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("f", "json")</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <Assign DisplayName="Attribute Values" sap2010:WorkflowViewState.IdRef="Assign_7">
+        <Assign.To>
+          <OutArgument x:TypeArguments="njl:JArray">
+            <mca:CSharpReference x:TypeArguments="njl:JArray">featuresFieldsJArray</mca:CSharpReference>
+          </OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="njl:JArray">
+            <mca:CSharpValue x:TypeArguments="njl:JArray">new JArray()</mca:CSharpValue>
+          </InArgument>
+        </Assign.Value>
+      </Assign>
+      <AddToCollection x:TypeArguments="njl:JToken" DisplayName="AddToCollection&lt;JToken&gt;" sap2010:WorkflowViewState.IdRef="AddToCollection`1_18">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="njl:JToken">
+            <mca:CSharpValue x:TypeArguments="njl:JToken">JObject.Parse("{\"attributes\":" + JsonConvert.SerializeObject(featuresFields) + ",\"geometry\":" + JsonConvert.SerializeObject(geometryDictionary) + "}")</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(njl:JToken)">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(njl:JToken)">featuresFieldsJArray</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <AddToCollection x:TypeArguments="scg:KeyValuePair(x:String, x:String)" DisplayName="Add features Argument" sap2010:WorkflowViewState.IdRef="AddToCollection`1_19">
+        <AddToCollection.Item>
+          <InArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:KeyValuePair(x:String, x:String)">new KeyValuePair&lt;string, string&gt;("features", JsonConvert.SerializeObject(featuresFieldsJArray))</mca:CSharpValue>
+          </InArgument>
+        </AddToCollection.Item>
+        <InArgument x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">
+          <mca:CSharpValue x:TypeArguments="scg:ICollection(scg:KeyValuePair(x:String, x:String))">arguments</mca:CSharpValue>
+        </InArgument>
+      </AddToCollection>
+      <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_2">
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String" xml:space="preserve">string.Join("&amp;",arguments.Select(x =&gt; string.Format("{0}={1}",
+                WebUtility.UrlEncode(x.Key),
+                WebUtility.UrlEncode(x.Value))))</mca:CSharpValue>
+        </InArgument>
+      </WriteLine>
+      <local:PostToFormEncodedService DisplayName="Update CP Test Point History Feature Class" sap2010:WorkflowViewState.IdRef="PostToFormEncodedService_2">
+        <local:PostToFormEncodedService.Arguments>
+          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">
+            <mca:CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:String)">arguments</mca:CSharpValue>
+          </InArgument>
+        </local:PostToFormEncodedService.Arguments>
+        <local:PostToFormEncodedService.Result>
+          <OutArgument x:TypeArguments="x:Int32">
+            <mca:CSharpReference x:TypeArguments="x:Int32">CPReadFeatureObjID</mca:CSharpReference>
+          </OutArgument>
+        </local:PostToFormEncodedService.Result>
+        <local:PostToFormEncodedService.Url>
+          <InArgument x:TypeArguments="x:Uri">
+            <mca:CSharpValue x:TypeArguments="x:Uri">new Uri(TestPointFeatureUrl)</mca:CSharpValue>
+          </InArgument>
+        </local:PostToFormEncodedService.Url>
+      </local:PostToFormEncodedService>
+      <local:CreateFile sap2010:WorkflowViewState.IdRef="CreateFile_1">
+        <local:CreateFile.FileName>
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">".\\DemoItems\\" + CPReadFeatureObjID + ".featureOID"</mca:CSharpValue>
+          </InArgument>
+        </local:CreateFile.FileName>
+      </local:CreateFile>
+      <local:CreateFile sap2010:WorkflowViewState.IdRef="CreateFile_2">
+        <local:CreateFile.FileName>
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">".\\DemoItems\\" + CPReadTableRecordObjID + ".tableOID"</mca:CSharpValue>
+          </InArgument>
+        </local:CreateFile.FileName>
+      </local:CreateFile>
+    </Sequence>
+    <Sequence DisplayName="Create GIS Edit Task" sap2010:WorkflowViewState.IdRef="Sequence_5">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="sot:TaskResource" Name="GISEditTask" />
+        <Variable x:TypeArguments="sot:TaskTypeResource" Name="TestPointTaskType" />
+      </Sequence.Variables>
+      <If sap2010:WorkflowViewState.IdRef="If_1">
+        <If.Condition>
+          <InArgument x:TypeArguments="x:Boolean">
+            <mca:CSharpValue x:TypeArguments="x:Boolean">CompletedTestPointTask.Redlines.Any()</mca:CSharpValue>
+          </InArgument>
+        </If.Condition>
+        <If.Then>
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+            <sowa:ConstructTask TaskToCopyFrom="{x:Null}" sap2010:WorkflowViewState.IdRef="ConstructTask_1" TaskTypeName="GIS_Correction">
+              <sowa:ConstructTask.Result>
+                <OutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GISEditTask</mca:CSharpReference>
+                </OutArgument>
+              </sowa:ConstructTask.Result>
+            </sowa:ConstructTask>
+            <sowa:AssignTaskToUser sap2010:WorkflowViewState.IdRef="AssignTaskToUser_1">
+              <sowa:AssignTaskToUser.Task>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GISEditTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:AssignTaskToUser.Task>
+              <sowa:AssignTaskToUser.Upn>
+                <InArgument x:TypeArguments="x:String">
+                  <mca:CSharpValue x:TypeArguments="x:String">CompletedTestPointTask.Properties["Inspector"].ToString()</mca:CSharpValue>
+                </InArgument>
+              </sowa:AssignTaskToUser.Upn>
+            </sowa:AssignTaskToUser>
+            <local:CopyLocation sap2010:WorkflowViewState.IdRef="CopyLocation_1">
+              <local:CopyLocation.FromTask>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTestPointTask</mca:CSharpValue>
+                </InArgument>
+              </local:CopyLocation.FromTask>
+              <local:CopyLocation.ToTask>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GISEditTask</mca:CSharpReference>
+                </InOutArgument>
+              </local:CopyLocation.ToTask>
+            </local:CopyLocation>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_8">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Object">
+                  <mca:CSharpReference x:TypeArguments="x:Object">GISEditTask.Properties["FieldInspector"]</mca:CSharpReference>
+                </OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Object">
+                  <mca:CSharpValue x:TypeArguments="x:Object">CompletedByUpn</mca:CSharpValue>
+                </InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_9">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Object">
+                  <mca:CSharpReference x:TypeArguments="x:Object">GISEditTask.Properties["Features"]</mca:CSharpReference>
+                </OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Object">
+                  <mca:CSharpValue x:TypeArguments="x:Object">CompletedTestPointTask.Properties["FacilityID"]</mca:CSharpValue>
+                </InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_10">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Object">
+                  <mca:CSharpReference x:TypeArguments="x:Object">GISEditTask.Properties["RequestDate"]</mca:CSharpReference>
+                </OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Object">
+                  <mca:CSharpValue x:TypeArguments="x:Object">CompletedTestPointTask.CompletionDate</mca:CSharpValue>
+                </InArgument>
+              </Assign.Value>
+            </Assign>
+            <local:GetTasksTaskType sap2010:WorkflowViewState.IdRef="GetTasksTaskType_1">
+              <local:GetTasksTaskType.Result>
+                <OutArgument x:TypeArguments="sot:TaskTypeResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskTypeResource">TestPointTaskType</mca:CSharpReference>
+                </OutArgument>
+              </local:GetTasksTaskType.Result>
+              <local:GetTasksTaskType.Task>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTestPointTask</mca:CSharpValue>
+                </InArgument>
+              </local:GetTasksTaskType.Task>
+            </local:GetTasksTaskType>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_11">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Object">
+                  <mca:CSharpReference x:TypeArguments="x:Object">GISEditTask.Properties["LayerName"]</mca:CSharpReference>
+                </OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Object">
+                  <mca:CSharpValue x:TypeArguments="x:Object">TestPointTaskType.LocationLayerDisplayName</mca:CSharpValue>
+                </InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign sap2010:WorkflowViewState.IdRef="Assign_12">
+              <Assign.To>
+                <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                  <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">GISEditTask.DueDate</mca:CSharpReference>
+                </OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                  <mca:CSharpValue x:TypeArguments="s:Nullable(s:DateTime)">new DateTime(2014,10,31)</mca:CSharpValue>
+                </InArgument>
+              </Assign.Value>
+            </Assign>
+            <sowa:SendTaskToOrbit sap2010:WorkflowViewState.IdRef="SendTaskToOrbit_1">
+              <sowa:SendTaskToOrbit.Task>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GISEditTask</mca:CSharpReference>
+                </InOutArgument>
+              </sowa:SendTaskToOrbit.Task>
+            </sowa:SendTaskToOrbit>
+            <local:CopyRedlines sap2010:WorkflowViewState.IdRef="CopyRedlines_1">
+              <local:CopyRedlines.FromTask>
+                <InArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTestPointTask</mca:CSharpValue>
+                </InArgument>
+              </local:CopyRedlines.FromTask>
+              <local:CopyRedlines.ToTask>
+                <InOutArgument x:TypeArguments="sot:TaskResource">
+                  <mca:CSharpReference x:TypeArguments="sot:TaskResource">GISEditTask</mca:CSharpReference>
+                </InOutArgument>
+              </local:CopyRedlines.ToTask>
+            </local:CopyRedlines>
+            <local:CreateFile sap2010:WorkflowViewState.IdRef="CreateFile_3">
+              <local:CreateFile.FileName>
+                <InArgument x:TypeArguments="x:String">
+                  <mca:CSharpValue x:TypeArguments="x:String">".\\DemoItems\\" + GISEditTask.ID.ToString() + ".task"</mca:CSharpValue>
+                </InArgument>
+              </local:CreateFile.FileName>
+            </local:CreateFile>
+          </Sequence>
+        </If.Then>
+      </If>
+    </Sequence>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="486,62" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="AddToCollection`1_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_2" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_3" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="AddToCollection`1_4" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_5" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_6" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="GetTaskOwner_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_7" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_8" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_20" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_9" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="264,970">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="264,62" />
+      <sap2010:ViewStateData Id="AddToCollection`1_10" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_11" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="264,62" />
+      <sap2010:ViewStateData Id="PostToFormEncodedService_1" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="AddToCollection`1_12" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_13" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_14" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="264,372">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_6" sap:VirtualizedContainerService.HintSize="264,62" />
+      <sap2010:ViewStateData Id="AddToCollection`1_15" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_16" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_17" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="264,62" />
+      <sap2010:ViewStateData Id="AddToCollection`1_18" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_19" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="264,62" />
+      <sap2010:ViewStateData Id="PostToFormEncodedService_2" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="CreateFile_1" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="CreateFile_2" sap:VirtualizedContainerService.HintSize="264,22" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="486,2698">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ConstructTask_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AssignTaskToUser_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="CopyLocation_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_8" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_9" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_10" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="GetTasksTaskType_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_11" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_12" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="SendTaskToOrbit_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="CopyRedlines_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="CreateFile_3" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="264,1028">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="464,1178" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="486,1302">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="508,4266">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SalesEngCustomOrbitActivities.TestPointReadCompleted_1" sap:VirtualizedContainerService.HintSize="548,4346" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

@@ -1,0 +1,505 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="SalesEngCustomOrbitActivities.EGUG2014Workflow"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:local="clr-namespace:SalesEngCustomOrbitActivities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sot="clr-namespace:SE.Orbit.TaskServices;assembly=SE.Orbit.Services.Core"
+ xmlns:sowa="clr-namespace:SE.Orbit.Workflow.Activities;assembly=SE.Orbit.Workflow.Activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="CompletedTask" Type="InArgument(sot:TaskResource)" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>SalesEngCustomOrbitActivities.EGUG2014Workflow_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>SE.Orbit.TaskServices</x:String>
+      <x:String>SalesEngCustomOrbitActivities</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>System.Configuration</x:String>
+      <x:String>SE.Orbit.Workflow.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>NLog</AssemblyReference>
+      <AssemblyReference>Nustache.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Services.Core</AssemblyReference>
+      <AssemblyReference>SE.Orbit.Workflow.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Net.Http.Formatting</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>SalesEngCustomOrbitActivities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_8">
+    <TryCatch sap2010:WorkflowViewState.IdRef="TryCatch_4">
+      <TryCatch.Try>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+          <If DisplayName="Check valve for corrosion" sap2010:WorkflowViewState.IdRef="If_1">
+            <If.Condition>
+              <InArgument x:TypeArguments="x:Boolean">
+                <mca:CSharpValue x:TypeArguments="x:Boolean">Convert.ToDouble(CompletedTask.Properties["PipeSoil"].ToString()) &gt; -0.75</mca:CSharpValue>
+              </InArgument>
+            </If.Condition>
+            <If.Then>
+              <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="local:TraceResult" Name="traceResults" />
+                </Sequence.Variables>
+                <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="It is corroded" />
+                <TryCatch sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                  <TryCatch.Try>
+                    <local:CPTraceActivity DisplayName="RunTrace" sap2010:WorkflowViewState.IdRef="CPTraceActivity_2">
+                      <local:CPTraceActivity.Result>
+                        <OutArgument x:TypeArguments="local:TraceResult">
+                          <mca:CSharpReference x:TypeArguments="local:TraceResult">traceResults</mca:CSharpReference>
+                        </OutArgument>
+                      </local:CPTraceActivity.Result>
+                      <local:CPTraceActivity.X>
+                        <InArgument x:TypeArguments="x:Double">
+                          <mca:CSharpValue x:TypeArguments="x:Double">CompletedTask.Location.Gps.Lng.Value</mca:CSharpValue>
+                        </InArgument>
+                      </local:CPTraceActivity.X>
+                      <local:CPTraceActivity.Y>
+                        <InArgument x:TypeArguments="x:Double">
+                          <mca:CSharpValue x:TypeArguments="x:Double">CompletedTask.Location.Gps.Lat.Value</mca:CSharpValue>
+                        </InArgument>
+                      </local:CPTraceActivity.Y>
+                    </local:CPTraceActivity>
+                  </TryCatch.Try>
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                        </ActivityAction.Argument>
+                        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_7">
+                          <InArgument x:TypeArguments="x:String">
+                            <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+                          </InArgument>
+                        </WriteLine>
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                </TryCatch>
+                <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="RanTrace" />
+                <Parallel sap2010:WorkflowViewState.IdRef="Parallel_1">
+                  <ParallelForEach x:TypeArguments="local:TestPoint" DisplayName="Create Tasks for each TestPoint" sap2010:WorkflowViewState.IdRef="ParallelForEach`1_1">
+                    <ParallelForEach.Values>
+                      <InArgument x:TypeArguments="scg:IEnumerable(local:TestPoint)">
+                        <mca:CSharpValue x:TypeArguments="scg:IEnumerable(local:TestPoint)">traceResults.TestPoints</mca:CSharpValue>
+                      </InArgument>
+                    </ParallelForEach.Values>
+                    <ActivityAction x:TypeArguments="local:TestPoint">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="local:TestPoint" Name="item" />
+                      </ActivityAction.Argument>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_6">
+                        <TryCatch sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                          <TryCatch.Try>
+                            <Sequence DisplayName="CreateTestPointTaskSequence" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="sot:TaskResource" Name="TestPointTask" />
+                                <Variable x:TypeArguments="sot:TaskResource" Name="CompletedTestPointTask" />
+                                <Variable x:TypeArguments="x:String" Name="CompletedByUpn" />
+                              </Sequence.Variables>
+                              <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="Creating TestPoint Task" />
+                              <sowa:ConstructTask TaskToCopyFrom="{x:Null}" sap2010:WorkflowViewState.IdRef="ConstructTask_1" TaskTypeName="CPTestRead">
+                                <sowa:ConstructTask.Result>
+                                  <OutArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                  </OutArgument>
+                                </sowa:ConstructTask.Result>
+                              </sowa:ConstructTask>
+                              <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_8" Text="Constructed TestPoint Task" />
+                              <sowa:AssignTaskToUser sap2010:WorkflowViewState.IdRef="AssignTaskToUser_1">
+                                <sowa:AssignTaskToUser.Task>
+                                  <InOutArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                  </InOutArgument>
+                                </sowa:AssignTaskToUser.Task>
+                                <sowa:AssignTaskToUser.Upn>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">CompletedTask.Properties["Inspector"].ToString()</mca:CSharpValue>
+                                  </InArgument>
+                                </sowa:AssignTaskToUser.Upn>
+                              </sowa:AssignTaskToUser>
+                              <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_9" Text="Assigned TestPoint Task" />
+                              <Assign DisplayName="Set Location" sap2010:WorkflowViewState.IdRef="Assign_3">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sot:LocationResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:LocationResource">TestPointTask.Location</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sot:LocationResource">
+                                    <mca:CSharpValue x:TypeArguments="sot:LocationResource">new LocationResource() { GlobalID = item.GUID, Gps = new GpsResource() { Lat = item.Latitude, Lng = item.Longitude } }</mca:CSharpValue>
+                                  </InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_10" Text="Set Location on TestPoint Task" />
+                              <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">
+                                    <mca:CSharpReference x:TypeArguments="x:Object">TestPointTask.Properties["FacilityID"]</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">
+                                    <mca:CSharpValue x:TypeArguments="x:Object">item.FacilityID</mca:CSharpValue>
+                                  </InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap2010:WorkflowViewState.IdRef="Assign_11">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                                    <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">TestPointTask.DueDate</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="s:DateTime">
+                                    <mca:CSharpValue x:TypeArguments="s:DateTime">new DateTime(2014,10,31)</mca:CSharpValue>
+                                  </InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_11" Text="Sending TestPoint Task To Orbit" />
+                              <sowa:SendTaskToOrbit sap2010:WorkflowViewState.IdRef="SendTaskToOrbit_1">
+                                <sowa:SendTaskToOrbit.Task>
+                                  <InOutArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                  </InOutArgument>
+                                </sowa:SendTaskToOrbit.Task>
+                              </sowa:SendTaskToOrbit>
+                              <sowa:CopyPhotos sap2010:WorkflowViewState.IdRef="CopyPhotos_1">
+                                <sowa:CopyPhotos.FromTask>
+                                  <InArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpValue x:TypeArguments="sot:TaskResource">CompletedTask</mca:CSharpValue>
+                                  </InArgument>
+                                </sowa:CopyPhotos.FromTask>
+                                <sowa:CopyPhotos.ToTask>
+                                  <InOutArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:TaskResource">TestPointTask</mca:CSharpReference>
+                                  </InOutArgument>
+                                </sowa:CopyPhotos.ToTask>
+                              </sowa:CopyPhotos>
+                              <local:CreateFile sap2010:WorkflowViewState.IdRef="CreateFile_1">
+                                <local:CreateFile.FileName>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">".\\DemoItems\\" + TestPointTask.ID.ToString() + ".task"</mca:CSharpValue>
+                                  </InArgument>
+                                </local:CreateFile.FileName>
+                              </local:CreateFile>
+                            </Sequence>
+                          </TryCatch.Try>
+                          <TryCatch.Catches>
+                            <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                              <ActivityAction x:TypeArguments="s:Exception">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                </ActivityAction.Argument>
+                                <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_12">
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+                                  </InArgument>
+                                </WriteLine>
+                              </ActivityAction>
+                            </Catch>
+                          </TryCatch.Catches>
+                        </TryCatch>
+                      </Sequence>
+                    </ActivityAction>
+                  </ParallelForEach>
+                  <ParallelForEach x:TypeArguments="local:Rectifier" DisplayName="Create Task for each Rectifier" sap2010:WorkflowViewState.IdRef="ParallelForEach`1_3">
+                    <ParallelForEach.Values>
+                      <InArgument x:TypeArguments="scg:IEnumerable(local:Rectifier)">
+                        <mca:CSharpValue x:TypeArguments="scg:IEnumerable(local:Rectifier)">traceResults.Rectifiers</mca:CSharpValue>
+                      </InArgument>
+                    </ParallelForEach.Values>
+                    <ActivityAction x:TypeArguments="local:Rectifier">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="local:Rectifier" Name="item" />
+                      </ActivityAction.Argument>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_7">
+                        <TryCatch sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                          <TryCatch.Try>
+                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_5">
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="sot:TaskResource" Name="RectifierTask" />
+                                <Variable x:TypeArguments="x:String" Default="RectifierInspection" Name="RectifierTaskTypeName" />
+                              </Sequence.Variables>
+                              <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="Creating Rectifier Task" />
+                              <sowa:ConstructTask TaskToCopyFrom="{x:Null}" sap2010:WorkflowViewState.IdRef="ConstructTask_2">
+                                <sowa:ConstructTask.Result>
+                                  <OutArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:TaskResource">RectifierTask</mca:CSharpReference>
+                                  </OutArgument>
+                                </sowa:ConstructTask.Result>
+                                <sowa:ConstructTask.TaskTypeName>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">RectifierTaskTypeName</mca:CSharpValue>
+                                  </InArgument>
+                                </sowa:ConstructTask.TaskTypeName>
+                              </sowa:ConstructTask>
+                              <sowa:AssignTaskToUser sap2010:WorkflowViewState.IdRef="AssignTaskToUser_2">
+                                <sowa:AssignTaskToUser.Task>
+                                  <InOutArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:TaskResource">RectifierTask</mca:CSharpReference>
+                                  </InOutArgument>
+                                </sowa:AssignTaskToUser.Task>
+                                <sowa:AssignTaskToUser.Upn>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">CompletedTask.Properties["Inspector"].ToString()</mca:CSharpValue>
+                                  </InArgument>
+                                </sowa:AssignTaskToUser.Upn>
+                              </sowa:AssignTaskToUser>
+                              <Assign DisplayName="Set Location" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sot:LocationResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:LocationResource">RectifierTask.Location</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sot:LocationResource">
+                                    <mca:CSharpValue x:TypeArguments="sot:LocationResource">new LocationResource() { GlobalID = item.GUID, Gps = new GpsResource() { Lat = item.Latitude, Lng = item.Longitude } }</mca:CSharpValue>
+                                  </InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap2010:WorkflowViewState.IdRef="Assign_9">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">
+                                    <mca:CSharpReference x:TypeArguments="x:Object">RectifierTask.Properties["FacilityID"]</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">
+                                    <mca:CSharpValue x:TypeArguments="x:Object">item.FacilityID</mca:CSharpValue>
+                                  </InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap2010:WorkflowViewState.IdRef="Assign_12">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                                    <mca:CSharpReference x:TypeArguments="s:Nullable(s:DateTime)">RectifierTask.DueDate</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="s:Nullable(s:DateTime)">
+                                    <mca:CSharpValue x:TypeArguments="s:Nullable(s:DateTime)">new DateTime(2014,10,31)</mca:CSharpValue>
+                                  </InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <sowa:SendTaskToOrbit sap2010:WorkflowViewState.IdRef="SendTaskToOrbit_2">
+                                <sowa:SendTaskToOrbit.Task>
+                                  <InOutArgument x:TypeArguments="sot:TaskResource">
+                                    <mca:CSharpReference x:TypeArguments="sot:TaskResource">RectifierTask</mca:CSharpReference>
+                                  </InOutArgument>
+                                </sowa:SendTaskToOrbit.Task>
+                              </sowa:SendTaskToOrbit>
+                              <local:CreateFile sap2010:WorkflowViewState.IdRef="CreateFile_2">
+                                <local:CreateFile.FileName>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">".\\DemoItems\\" + RectifierTask.ID.ToString() + ".task"</mca:CSharpValue>
+                                  </InArgument>
+                                </local:CreateFile.FileName>
+                              </local:CreateFile>
+                            </Sequence>
+                          </TryCatch.Try>
+                          <TryCatch.Catches>
+                            <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                              <ActivityAction x:TypeArguments="s:Exception">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                </ActivityAction.Argument>
+                                <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_13">
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+                                  </InArgument>
+                                </WriteLine>
+                              </ActivityAction>
+                            </Catch>
+                          </TryCatch.Catches>
+                        </TryCatch>
+                      </Sequence>
+                    </ActivityAction>
+                  </ParallelForEach>
+                </Parallel>
+              </Sequence>
+            </If.Then>
+          </If>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_4">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_14">
+              <InArgument x:TypeArguments="x:String">
+                <mca:CSharpValue x:TypeArguments="x:String">exception.ToString()</mca:CSharpValue>
+              </InArgument>
+            </WriteLine>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <sads:DebugSymbol.Symbol>d25DOlxzcmNcU2FsZXNFR1VHMjAxNFByb2plY3RzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXFNhbGVzRW5nQ3VzdG9tT3JiaXRBY3Rpdml0aWVzXEVHVUcyMDE0V29ya2Zsb3cueGFtbFg+A/cCDgIBAT8F9QIQAgECQQnlAhQCAQftAg3xAhkCAQNCC+QCEAIBCO8CEe8CYwIBBEURRZwBAgEJSQ/iAhoCAQtNEU1iAwH5AU4RcBwDAekBcRFxXAMB5wFyEeECHAIBDE1PTV8DAfoBUBVgLQMB7wFoGWwlAwHqAXFPcVkDAegBcxPvASUCAWzwARPgAiUCAQ1TG1N2AwH2AVgbWH0DAfMBXRtdfQMB8AFqHWpvAwHrAXYZdoYBAwHkAX0X7QEiAgFt8wEZ8wGGAQIBafoBF94CIgIBDn4Z7AEkAgFu+wEZ3QIkAgEPgAEd3AEoAgF15AEh6AEtAgFv/QEdzQIoAgEW1QIh2QItAgEQhgEfhgF5AwHiAYcBH40BNAMB2QGOAR+OAXwDAdcBjwEfmgE3AwHIAZsBH5sBeQMBxgGcAR+nASgDAbcBqAEfqAGBAQMBtQGpAR+0ASgDAaYBtQEfwAEoAwGXAcEBH8EBggEDAZUBwgEfyAE2AwGNAckBH9QBMQIBftUBH9sBMgIBduYBJeYBdwIBcIACToACYwIBF4ICH4ICeQIBZ4MCH44CNAIBWo8CH5oCNwIBTZsCH6YCKAIBQKcCH7ICKAIBM7MCH74CKAIBJr8CH8UCNgIBH8YCH8wCMgIBGNcCJdcCdwIBEYYBXYYBdgMB4wGHAYwBhwGYAQMB4QGKASWKAYABAwHaAY4BXY4BeQMB2AGXASWXAZMBAwHQAZIBJZIBgAEDAckBmwFdmwF2AwHHAaQBJaQB5QEDAb8BnwElnwGNAQMBuAGoAV6oAX4DAbYBsQElsQFyAwGuAawBJawBkQEDAacBvQElvQF9AwGfAbgBJbgBjgEDAZgBwQFewQF/AwGWAcUBJcUBgAEDAY4B0QEl0QGAAQMBhgHMASXMAXgCAX/YASXYAZsBAgF3ggJdggJ2AgFoiwIliwJ4AgFhhgIlhgKAAQIBW5cCJZcCkwECAVSSAiWSAoABAgFOowIlowLlAQIBR54CJZ4CjQECAUGvAiWvAnICATqqAiWqApEBAgE0uwIluwKJAQIBLbYCJbYCjgECASfCAiXCAoABAgEgyQIlyQKbAQIBGQ==</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="1094,62" />
+      <sap2010:ViewStateData Id="CPTraceActivity_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WriteLine_7" sap:VirtualizedContainerService.HintSize="211,62" />
+      <sap2010:ViewStateData Id="Catch`1_1" sap:VirtualizedContainerService.HintSize="404,21">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_1" sap:VirtualizedContainerService.HintSize="1094,287" />
+      <sap2010:ViewStateData Id="WriteLine_6" sap:VirtualizedContainerService.HintSize="1094,62" />
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="ConstructTask_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="WriteLine_8" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="AssignTaskToUser_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="WriteLine_9" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="WriteLine_10" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_11" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="WriteLine_11" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="SendTaskToOrbit_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="CopyPhotos_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="CreateFile_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="264,1210">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_12" sap:VirtualizedContainerService.HintSize="211,62" />
+      <sap2010:ViewStateData Id="Catch`1_2" sap:VirtualizedContainerService.HintSize="404,21">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_2" sap:VirtualizedContainerService.HintSize="418,1437" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="440,1561">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ParallelForEach`1_1" sap:VirtualizedContainerService.HintSize="470,1711">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="ConstructTask_2" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="AssignTaskToUser_2" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_10" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_9" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Assign_12" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="SendTaskToOrbit_2" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="CreateFile_2" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="264,740">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_13" sap:VirtualizedContainerService.HintSize="211,62" />
+      <sap2010:ViewStateData Id="Catch`1_3" sap:VirtualizedContainerService.HintSize="404,21">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_3" sap:VirtualizedContainerService.HintSize="418,967" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="440,1091">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ParallelForEach`1_3" sap:VirtualizedContainerService.HintSize="470,1711" />
+      <sap2010:ViewStateData Id="Parallel_1" sap:VirtualizedContainerService.HintSize="1094,1757" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="1116,2412">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="1241,2562" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="1263,2686">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_14" sap:VirtualizedContainerService.HintSize="211,62" />
+      <sap2010:ViewStateData Id="Catch`1_4" sap:VirtualizedContainerService.HintSize="1267,21">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_4" sap:VirtualizedContainerService.HintSize="1281,2913" />
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="1303,3037">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SalesEngCustomOrbitActivities.EGUG2014Workflow_1" sap:VirtualizedContainerService.HintSize="1343,3117" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

@@ -1,0 +1,2 @@
+GasLeakSurveyCompleted.g.xaml
+XamlStaticHelperNamespace._XamlStaticHelper

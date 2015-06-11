@@ -1,0 +1,2 @@
+DamageAssessmentCreated.g.xaml
+XamlStaticHelperNamespace._XamlStaticHelper
